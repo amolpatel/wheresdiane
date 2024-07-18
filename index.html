@@ -17,6 +17,26 @@
             text-transform: uppercase;
         }
     </style>
+    <script>
+        async function fetchData() {
+            // URL of the published Google Sheet
+            const url = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSi_p1i5p4YG-6Ns_hxzKTCrPEjqLM02DO3X9bearqvDsFqmvUVrY9BWQ8ymRLLGrBsN6-r8yALYPnX/pub?output=csv';
+            
+            try {
+                const response = await fetch(url);
+                const data = await response.text();
+                const rows = data.split('\n');
+                const cellValue = rows[0].split(',')[0]; // Adjust indexes for the specific cell
+                
+                document.getElementById('content').innerText = cellValue;
+            } catch (error) {
+                console.error('Error fetching data:', error);
+                document.getElementById('content').innerText = 'Error';
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', fetchData);
+    </script>
 </head>
 <body>
     <div id="content">
